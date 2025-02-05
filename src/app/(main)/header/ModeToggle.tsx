@@ -12,15 +12,16 @@ import {
 
 import { Sun, Moon, SunMoon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useMountedState } from "react-use";
+
+import { useMounted } from "@/lib/hooks";
 
 const ModeToggle = () => {
   const { theme, setTheme, themes } = useTheme();
-  const isMounted = useMountedState();
+  const isMounted = useMounted();
 
-  if (!isMounted()) {
+  if (!isMounted) {
     return null;
-  }
+  }  
 
   const icon =
     theme === "system" ? <SunMoon /> : theme === "dark" ? <Moon /> : <Sun />;
