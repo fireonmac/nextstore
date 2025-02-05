@@ -21,7 +21,7 @@ const ModeToggle = () => {
 
   if (!isMounted) {
     return null;
-  }  
+  }
 
   const icon =
     theme === "system" ? <SunMoon /> : theme === "dark" ? <Moon /> : <Sun />;

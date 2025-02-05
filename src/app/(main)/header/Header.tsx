@@ -1,14 +1,15 @@
-import { ShoppingCart, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import ModeToggle from "./ModeToggle";
+import Menu from "./Menu";
 
 const Header = () => {
   return (
     <header className="border-b">
       <div className="wrapper flex-between">
+        {/* Left */}
         <div className="flex-start">
           <Link href="/" className="flex-start">
             <Image
@@ -23,20 +24,8 @@ const Header = () => {
             </span>
           </Link>
         </div>
-
-        <div className="space-x-2">
-          <ModeToggle />
-          <Button asChild variant="ghost">
-            <Link href="/cart">
-              <ShoppingCart /> Cart
-            </Link>
-          </Button>
-          <Button asChild>
-            <Link href="/sign-in">
-              <User /> Sign In
-            </Link>
-          </Button>
-        </div>
+        {/* Right */}
+        <Menu />
       </div>
     </header>
   );
