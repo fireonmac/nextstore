@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MenuIcon, ShoppingCartIcon, UserIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/lib/components/ui/button";
 import ModeToggle from "./ModeToggle";
 import {
   Sheet,
@@ -8,7 +8,7 @@ import {
   SheetDescription,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/lib/components/ui/sheet";
 
 const Menu = () => {
   return (

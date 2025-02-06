@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
-import { Button } from "@/components/ui/button";
-import ModeToggle from "./ModeToggle";
 import Menu from "./Menu";
 
 const Header = () => {
