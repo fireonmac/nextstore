@@ -1,5 +1,5 @@
 import sampleData from "@/lib/data/sample-data";
-import ProductList from "@/lib/components/feature/product/product-list";
+import ProductList from "@/lib/components/feature/product/ProductList";
 
 const HomePage = async () => {
   return (
