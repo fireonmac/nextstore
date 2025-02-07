@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import sampleData from "./sample-data";
+import { prisma } from "./client";
 
 const main = async () => {
-  const prisma = new PrismaClient();
   await prisma.product.deleteMany();
   await prisma.product.createMany({
     data: sampleData.products,
