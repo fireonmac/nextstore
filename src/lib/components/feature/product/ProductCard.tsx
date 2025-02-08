@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Card, CardContent, CardHeader } from "@/lib/components/ui/card";
 import ProductPrice from "./ProductPrice";
-import { Product } from "@prisma/client";
+import { Product } from "@/lib/types";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
