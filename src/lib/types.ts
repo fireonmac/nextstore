@@ -1,3 +1,8 @@
-import { Product as PrismaProduct } from "@prisma/client"
+import { Prisma } from '@prisma/client';
+import { prisma } from './data/client';
 
-export type Product = PrismaProduct;
+export type Product = Prisma.Result<
+  typeof prisma.product,
+  {},
+  'findFirstOrThrow'
+>;
