@@ -3,6 +3,6 @@ import { prisma } from './data/client';
 
 export type Product = Prisma.Result<
   typeof prisma.product,
-  {},
+  null,
   'findFirstOrThrow'
 >;
