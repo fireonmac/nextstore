@@ -1,4 +1,5 @@
 import { Button } from "@/lib/components/ui/button";
+import Link from "next/link";
 
 const RootNotFound = () => {
   return (
@@ -11,11 +12,11 @@ const RootNotFound = () => {
         Sorry, we couldn’t find the page you’re looking for.
       </p>
       <div className="mt-10">
-        <a href="/" className="text-sm/7 font-semibold text-primary">
+        <Link href="/" className="text-sm/7 font-semibold text-primary">
           <Button variant="secondary">
             <span aria-hidden="true">&larr;</span> Back to home
           </Button>
-        </a>
+        </Link>
       </div>
     </div>
   );
