@@ -29,6 +29,10 @@
   .h3-bold {
     @apply font-bold text-xl lg:text-2xl;
   }
+
+  .p-muted {
+    @apply text-sm text-muted-foreground;
+  }
 }
 
 @layer base {

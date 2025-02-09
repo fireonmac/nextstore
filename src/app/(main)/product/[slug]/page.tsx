@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/lib/components/ui/card';
 import { getProductBySlug } from '@/lib/data/query';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/lib/components/feature/product/ProductPrice';
+import ProductPreview from '@/lib/components/feature/product/ProductPreview';
 
 const ProductDetailsPage = async ({
   params,
@@ -22,7 +23,9 @@ const ProductDetailsPage = async ({
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           {/* Images Column */}
-          <div className="col-span-2">{/* Add Images */}</div>
+          <div className="col-span-2">
+            <ProductPreview images={product.images} />
+          </div>
 
           {/* Details Column */}
           <div className="col-span-2 p-5">
