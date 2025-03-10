@@ -5,7 +5,7 @@ import { prisma } from '@/lib/data/client';
 import Credentials from 'next-auth/providers/credentials';
 import { getUserByEmail } from './lib/data/query';
 import { ZodError } from 'zod';
-import { signInSchema } from './lib/zods';
+import { signInSchema } from './lib/validators';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
