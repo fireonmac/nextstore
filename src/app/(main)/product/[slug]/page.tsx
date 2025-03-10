@@ -3,8 +3,8 @@ import { Badge } from '@/lib/components/ui/badge';
 import { Card, CardContent } from '@/lib/components/ui/card';
 import { getProductBySlug } from '@/lib/data/query';
 import { notFound } from 'next/navigation';
-import ProductPrice from '@/lib/components/feature/product/ProductPrice';
-import ProductPreview from '@/lib/components/feature/product/ProductPreview';
+import ProductPrice from '@/app/(main)/_components/ProductPrice';
+import ProductPreview from '@/app/(main)/product/[slug]/ProductPreview';
 
 const ProductDetailsPage = async ({
   params,

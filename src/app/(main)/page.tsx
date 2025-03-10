@@ -1,4 +1,4 @@
-import LatestProductList from "./LatestProductList";
+import LatestProductList from "./_components/LatestProductList";
 import { Suspense } from "react";
 
 const HomePage = async () => {

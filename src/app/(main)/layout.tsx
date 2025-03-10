@@ -1,5 +1,5 @@
-import Footer from "./Footer";
-import Header from "./header/Header";
+import Footer from "./_components/Footer";
+import Header from "./_components/header/Header";
 
 const MainLayout = ({
   children,

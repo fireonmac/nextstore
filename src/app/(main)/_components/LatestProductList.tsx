@@ -1,4 +1,4 @@
-import ProductList from "@/lib/components/feature/product/ProductList";
+import ProductList from "@/app/(main)/_components/ProductList";
 import { LATEST_PRODUCTS_LIMIT } from "@/lib/constants";
 import { getLatestProducts } from "@/lib/data/query";
 
