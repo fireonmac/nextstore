@@ -6,3 +6,9 @@ export type Product = Prisma.Result<
   null,
   'findFirstOrThrow'
 >;
+
+export type User = Prisma.Result<
+  typeof prisma.user,
+  null,
+  'findFirstOrThrow'
+>;
