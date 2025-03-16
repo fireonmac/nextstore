@@ -1,6 +1,6 @@
 'use client';
 
-import { signInWithCredentials } from '@/lib/actions';
+import { signUpWithCredentials } from '@/lib/actions';
 import { Button } from '@/lib/components/ui/button';
 import { Input } from '@/lib/components/ui/input';
 import { Label } from '@/lib/components/ui/label';
@@ -8,12 +8,12 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useActionState } from 'react';
 
-function signInFormAction(prevState: unknown, formData: FormData) {
-  return signInWithCredentials(formData);
+function signUpFormAction(prevState: unknown, formData: FormData) {
+  return signUpWithCredentials(formData);
 }
 
-const CredentialsSignInForm = () => {
-  const [state, action, isPending] = useActionState(signInFormAction, {
+const CredentialsSignUpForm = () => {
+  const [state, action, isPending] = useActionState(signUpFormAction, {
     message: '',
     success: false,
   });
@@ -24,6 +24,18 @@ const CredentialsSignInForm = () => {
   return (
     <form action={action}>
       <div className="space-y-6">
+        <div>
+          <Label htmlFor="name">Name</Label>
+          <Input
+            type="text"
+            id="name"
+            name="name"
+            autoComplete="name"
+            required
+            defaultValue=""
+          />
+        </div>
+
         <div>
           <Label htmlFor="email">Email</Label>
           <Input
@@ -48,22 +60,36 @@ const CredentialsSignInForm = () => {
           />
         </div>
 
+        <div>
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            autoComplete="confirmPassword"
+            required
+            defaultValue=""
+          />
+        </div>
+
         <Button className="w-full" disabled={isPending}>
-          {isPending ? 'Signing In...' : 'Sign In'}
+          {isPending ? 'Submitting...' : 'Sign Up'}
         </Button>
 
         {state && !state.success && (
-          <p className="text-center text-destructive text-sm">{state.message}</p>
+          <p className="text-center text-destructive text-sm">
+            {state.message}
+          </p>
         )}
 
         <p className="text-center text-sm text-muted-foreground">
-          Don't have an account?{' '}
-          <Link href={`/sign-up?callbackUrl=${callbackUrl}`} target="_self">
-            Sign up
+          Already have an account?{' '}
+          <Link href={`/sign-in?callbackUrl=${callbackUrl}`} target="_self">
+            Sign in
           </Link>
         </p>
       </div>
     </form>
   );
 };
-export default CredentialsSignInForm;
+export default CredentialsSignUpForm;
