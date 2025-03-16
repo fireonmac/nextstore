@@ -38,7 +38,7 @@ const UserButton = async () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center">
-            <Avatar>
+            <Avatar size="sm">
               <AvatarImage src={session.user?.image ?? ''} />
               <AvatarFallback>{firstInitial}</AvatarFallback>
             </Avatar>
