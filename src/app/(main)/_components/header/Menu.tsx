@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MenuIcon, ShoppingCartIcon, UserIcon } from "lucide-react";
+import { MenuIcon, ShoppingCartIcon } from "lucide-react";
 import { Button } from "@/lib/components/ui/button";
 import ModeToggle from "./ModeToggle";
 import {
@@ -9,12 +9,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/lib/components/ui/sheet";
+import UserButton from "./UserButton";
 
 const Menu = () => {
   return (
     <>
       <div className="flex justify-end gap-3">
-        <nav className="md:flex hidden w-full max-w-xs gap-1">
+        <nav className="md:flex md:items-center hidden w-full max-w-xs gap-1">
           <ModeToggle />
           <Button asChild variant="ghost">
             <Link href="/cart">
@@ -22,12 +23,7 @@ const Menu = () => {
               Cart
             </Link>
           </Button>
-          <Button asChild>
-            <Link href="/sign-in">
-              <UserIcon />
-              Sign In
-            </Link>
-          </Button>
+          <UserButton />
         </nav>
         <nav className="md:hidden">
           <Sheet>
@@ -43,12 +39,7 @@ const Menu = () => {
                   Cart
                 </Link>
               </Button>
-              <Button asChild>
-                <Link href="/sign-in">
-                  <UserIcon />
-                  Sign In
-                </Link>
-              </Button>
+              <UserButton />
               <SheetDescription></SheetDescription>
             </SheetContent>
           </Sheet>
