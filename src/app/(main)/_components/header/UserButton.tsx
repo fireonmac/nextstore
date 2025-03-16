@@ -30,7 +30,6 @@ const UserButton = async () => {
     );
   }
 
-  // 두 글자까지 대문자로 표시, 3글자 이상인 경우 한 글자로 줄임
   const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? '';
 
   return (
