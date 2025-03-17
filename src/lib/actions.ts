@@ -5,6 +5,7 @@ import { signInSchema, signUpSchema } from './validators';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from './data/client';
+import { formatError } from './utils';
 
 export async function signInWithCredentials(formData: FormData) {
   try {
@@ -21,7 +22,7 @@ export async function signInWithCredentials(formData: FormData) {
       throw error;
     }
 
-    return { success: false, message: 'Invalid email or password' };
+    return { success: false, message: formatError(error)[0] };
   }
 }
 
@@ -63,7 +64,7 @@ export async function signUpWithCredentials(formData: FormData) {
 
     return {
       success: false,
-      message: 'Something went wrong',
+      message: formatError(error)[0],
     };
   }
 }
