@@ -1,5 +1,3 @@
-import { object, string } from 'zod';
-
 import { z } from 'zod';
 import { formatNumberWithDecimal } from './utils';
 
@@ -25,8 +23,8 @@ export const insertProductSchema = z.object({
 });
 
 const credentialsSchema = z.object({
-  email: string({ required_error: 'Email is required' }).email('Invalid email'),
-  password: string({ required_error: 'Password is required' })
+  email: z.string({ required_error: 'Email is required' }).email('Invalid email'),
+  password: z.string({ required_error: 'Password is required' })
     .min(6, 'Password must be more than 6 characters')
     .max(32, 'Password must be less than 32 characters'),
 });
@@ -42,3 +40,22 @@ export const signUpSchema = credentialsSchema
     message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
+
+export const cartItemSchema = z.object({
+  productId: z.string().min(1, 'Product is required'),
+  name: z.string().min(1, 'Name is required'),
+  slug: z.string().min(1, 'Slug is required'),
+  quantity: z.number().int().nonnegative('Quantity must be a positive integer'),
+  image: z.string().min(1, 'Image is required'),
+  price: currency
+});
+
+export const insertCartSchema = z.object({
+  items: z.array(cartItemSchema),
+  itemsPrice: currency,
+  totalPrice: currency,
+  shippingPrice: currency,
+  taxPrice: currency,
+  sessionCardId: z.string().min(1, 'Session card ID is required'),
+  userId: z.string().optional().nullable(),
+});
