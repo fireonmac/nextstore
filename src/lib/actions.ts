@@ -6,6 +6,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from './data/client';
 import { formatError } from './utils';
+import { CartItem } from './types';
 
 export async function signInWithCredentials(formData: FormData) {
   try {
@@ -67,4 +68,11 @@ export async function signUpWithCredentials(formData: FormData) {
       message: formatError(error)[0],
     };
   }
+}
+
+export async function addItemToCart(item: CartItem) {
+  return {
+    success: true,
+    message: 'Item added to the cart',
+  };
 }

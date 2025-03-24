@@ -5,6 +5,7 @@ import { getProductBySlug } from '@/lib/data/query';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/app/(main)/_components/ProductPrice';
 import ProductPreview from '@/app/(main)/product/[slug]/ProductPreview';
+import AddToCart from './AddToCart';
 
 const ProductDetailsPage = async ({
   params,
@@ -70,7 +71,16 @@ const ProductDetailsPage = async ({
                 </div>
                 {product.stock > 0 && (
                   <div className=" flex-center">
-                    <Button className="w-full">Add to cart</Button>
+                    <AddToCart
+                      item={{
+                        productId: product.id,
+                        name: product.name,
+                        slug: product.slug,
+                        quantity: 1,
+                        image: product.images[0],
+                        price: product.price,
+                      }}
+                    />
                   </div>
                 )}
               </CardContent>
