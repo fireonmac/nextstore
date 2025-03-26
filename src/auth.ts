@@ -7,6 +7,7 @@ import { ZodError } from 'zod';
 import { signInSchema } from './lib/validators';
 import NextAuth from 'next-auth';
 import { DEFAULT_USER_NAME } from './lib/constants';
+import { NextResponse } from 'next/server';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -90,6 +91,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       // Return the updated session object
       return session;
+    },
+    async authorized({ request, auth }) {
+      // Check for cart cookie
+      if (!request.cookies.get('sessionCartId')) {
+        // Generate cart cookie
+        const sessionCartId = crypto.randomUUID();
+
+        // Clone the request headers
+        const newRequestHeaders = new Headers(request.headers);
+
+        // Create a new response and add the new headers
+        const response = NextResponse.next({
+          request: {
+            headers: newRequestHeaders,
+          },
+        });
+
+        // Set the newly generated sessionCartId in the response cookies
+        response.cookies.set('sessionCartId', sessionCartId);
+
+        // Return the response with the sessionCartId set
+        return response;
+      } else {
+        return true;
+      }
     },
   },
 });
