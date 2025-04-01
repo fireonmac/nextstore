@@ -10,6 +10,7 @@ export type Product = Prisma.Result<
 export type User = Prisma.Result<typeof prisma.user, null, 'findFirstOrThrow'>;
 export type Cart = Prisma.Result<typeof prisma.cart, null, 'findFirstOrThrow'>;
 export type CartItem = z.infer<typeof cartItemSchema>;
+export type InsertCart = z.infer<typeof insertCartSchema>;
 
 declare module 'next-auth' {
   interface User {
@@ -18,7 +19,7 @@ declare module 'next-auth' {
 }
 
 import { JWT } from 'next-auth/jwt';
-import { cartItemSchema } from './validators';
+import { cartItemSchema, insertCartSchema } from './validators';
 
 declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
