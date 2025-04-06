@@ -20,12 +20,12 @@ export const prisma = new PrismaClient({ adapter }).$extends({
     product: {
       price: {
         compute(product) {
-          return product.price.toString();
+          return product.price.toNumber();
         },
       },
       rating: {
         compute(product) {
-          return product.rating.toString();
+          return product.rating.toNumber();
         },
       },
     },
@@ -37,22 +37,22 @@ export const prisma = new PrismaClient({ adapter }).$extends({
       },
       itemsPrice: {
         compute(cart) {
-          return cart.itemsPrice.toString();
+          return cart.itemsPrice.toNumber();
         },
       },
       shippingPrice: {
         compute(cart) {
-          return cart.shippingPrice.toString();
+          return cart.shippingPrice.toNumber();
         },
       },
       taxPrice: {
         compute(cart) {
-          return cart.taxPrice.toString();
+          return cart.taxPrice.toNumber();
         },
       },
       totalPrice: {
         compute(cart) {
-          return cart.totalPrice.toString();
+          return cart.totalPrice.toNumber();
         },
       },
     },

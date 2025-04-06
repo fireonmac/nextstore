@@ -3,9 +3,9 @@ import { formatNumberWithDecimal } from './utils';
 
 // Make sure price is formatted with two decimal places
 const currency = z
-  .string()
+  .number()
   .refine(
-    (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(Number(value))),
+    (value) => /^\d+(\.\d{2})?$/.test(formatNumberWithDecimal(String(value))),
     'Price must have exactly two decimal places (e.g., 49.99)'
   );
 
@@ -56,6 +56,6 @@ export const insertCartSchema = z.object({
   totalPrice: currency,
   shippingPrice: currency,
   taxPrice: currency,
-  sessionCardId: z.string().min(1, 'Session card ID is required'),
+  sessionCartId: z.string().min(1, 'Session card ID is required'),
   userId: z.string().optional().nullable(),
 });
