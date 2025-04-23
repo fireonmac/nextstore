@@ -1,7 +1,7 @@
 import { Button } from '@/lib/components/ui/button';
 import { Badge } from '@/lib/components/ui/badge';
 import { Card, CardContent } from '@/lib/components/ui/card';
-import { getProductBySlug } from '@/lib/data/query';
+import { getProductBySlug } from '@/lib/queries';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/app/(main)/_components/ProductPrice';
 import ProductPreview from '@/app/(main)/product/[slug]/ProductPreview';

@@ -13,7 +13,7 @@ import { prisma } from './data/client';
 import { calcPrice, formatError } from './utils';
 import { CartItem } from './types';
 import { cookies } from 'next/headers';
-import { getMyCart } from './data/query';
+import { getMyCart, getProductById } from './queries';
 import { revalidatePath } from 'next/cache';
 
 /********************************************************************
@@ -98,13 +98,12 @@ export async function addItemToCart(data: CartItem) {
     const item = cartItemSchema.parse(data);
 
     // Find product in database
-    const product = await prisma.product.findFirst({
-      where: { id: item.productId },
-    });
+    const product = await getProductById(item.productId);
     if (!product) throw new Error('Product not found');
 
     // Get cart
     const cart = await getMyCart();
+
     if (!cart) {
       // Create new cart object
       const newCart = insertCartSchema.parse({
@@ -125,11 +124,44 @@ export async function addItemToCart(data: CartItem) {
         message: 'Item added to the cart successfully',
       };
     } else {
-      
+      // Check for existing item in cart
+      const existingItem = cart.items.find(
+        (item) => item.productId === data.productId
+      );
+
+      // If not enough stock, throw error
+      if (existingItem) {
+        if (product.stock < existingItem.quantity + 1) {
+          throw new Error('Not enough stock');
+        }
+
+        // Increase quantity of existing item
+        existingItem.quantity += 1;
+      } else {
+        if (product.stock < 1) throw new Error('Not enough stock');
+        cart.items.push(item);
+      }
+
+      // Save to database
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          items: cart.items,
+          ...calcPrice(cart.items),
+        },
+      });
+
+      revalidatePath(`/product/${product.slug}`);
+
+      return {
+        success: true,
+        message: `${product.name} ${
+          existingItem ? 'updated in' : 'added to'
+        } cart successfully`,
+      };
     }
   } catch (error) {
-    console.log(error);
-
+    console.error(error);
     return {
       success: false,
       message: formatError(error)[0],

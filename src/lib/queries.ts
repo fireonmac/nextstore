@@ -1,5 +1,5 @@
-import { prisma } from './client';
-import { Product } from '../types';
+import { prisma } from './data/client';
+import { Product } from './types';
 import { User } from 'next-auth';
 import { cookies } from 'next/headers';
 import { auth } from '@/auth';
@@ -15,6 +15,10 @@ export const getLatestProducts = async (limit?: number) => {
 
 export const getProductBySlug = async (slug: Product['slug']) => {
   return prisma.product.findFirst({ where: { slug } });
+};
+
+export const getProductById = async (id: Product['id']) => {
+  return prisma.product.findFirst({ where: { id } });
 };
 
 export const getUserByEmail = async (email: User['email']) => {

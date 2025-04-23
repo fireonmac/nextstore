@@ -2,7 +2,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { compareSync } from 'bcrypt-ts-edge';
 import { prisma } from '@/lib/data/client';
 import Credentials from 'next-auth/providers/credentials';
-import { getUserByEmail } from './lib/data/query';
+import { getUserByEmail } from './lib/queries';
 import { ZodError } from 'zod';
 import { signInSchema } from './lib/validators';
 import NextAuth from 'next-auth';
