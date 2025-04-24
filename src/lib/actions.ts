@@ -168,3 +168,55 @@ export async function addItemToCart(data: CartItem) {
     };
   }
 }
+
+export async function removeItemFromCart(productId: CartItem['productId']) {
+  try {
+    const sessionCartId = (await cookies()).get('sessionCartId')?.value;
+    if (!sessionCartId) throw new Error('Cart Session not found');
+
+    // Get product
+    const product = await getProductById(productId);
+    if (!product) throw new Error('Product not found');
+
+    // Get user cart
+    const cart = await getMyCart();
+    if (!cart) throw new Error('Cart not found');
+
+    const existingItem = cart.items.find(
+      (item) => item.productId === productId
+    );
+    if (!existingItem) throw new Error('Item not found in cart');
+
+    // Check if cart has only one item
+    if (existingItem.quantity === 1) {
+      // Remove item from cart
+      cart.items = cart.items.filter((item) => item.productId !== productId);
+    } else {
+      // Decrease quantity of existing item
+      existingItem.quantity -= 1;
+    }
+
+    // Update cart in database
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        items: cart.items,
+        ...calcPrice(cart.items),
+      },
+    });
+
+    // Revalidate product page
+    revalidatePath(`/product/${product.slug}`);
+
+    return {
+      success: true,
+      message: `${product.name} ${
+        cart.items.find((item) => item.productId === productId)
+          ? 'updated in'
+          : 'removed from'
+      } cart successfully`,
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
