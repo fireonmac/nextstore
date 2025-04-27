@@ -1,7 +1,6 @@
-import { Button } from '@/lib/components/ui/button';
 import { Badge } from '@/lib/components/ui/badge';
 import { Card, CardContent } from '@/lib/components/ui/card';
-import { getProductBySlug } from '@/lib/queries';
+import { getMyCart, getProductBySlug } from '@/lib/queries';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/app/(main)/_components/ProductPrice';
 import ProductPreview from '@/app/(main)/product/[slug]/ProductPreview';
@@ -14,6 +13,7 @@ const ProductDetailsPage = async ({
 }) => {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
+  const cart = await getMyCart();
 
   if (!product) {
     notFound();
@@ -72,6 +72,11 @@ const ProductDetailsPage = async ({
                 {product.stock > 0 && (
                   <div className=" flex-center">
                     <AddToCart
+                      countInCart={
+                        cart?.items.find(
+                          (item) => item.productId === product.id
+                        )?.quantity ?? 0
+                      }
                       item={{
                         productId: product.id,
                         name: product.name,

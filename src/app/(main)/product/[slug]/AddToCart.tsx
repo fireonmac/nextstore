@@ -1,14 +1,14 @@
 'use client';
 
-import { addItemToCart } from '@/lib/actions';
+import { addItemToCart, removeItemFromCart } from '@/lib/actions';
 import { Button } from '@/lib/components/ui/button';
 import { ToastAction } from '@/lib/components/ui/toast';
 import { useToast } from '@/lib/hooks/use-toast';
 import { CartItem } from '@/lib/types';
-import { Plus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-const AddToCart = ({ item }: { item: CartItem }) => {
+const AddToCart = ({ countInCart, item }: { countInCart: number; item: CartItem }) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -39,7 +39,26 @@ const AddToCart = ({ item }: { item: CartItem }) => {
     });
   };
 
-  return (
+  const handleRemoveFromCart = async () => {
+    const res = await removeItemFromCart(item.productId);
+
+    toast({
+      description: res.message,
+      variant: res.success ? 'default' : 'destructive',
+    });
+  };
+  
+  return countInCart ? (
+    <div className="flex items-center">
+      <Button type="button" variant="outline" size="sm" onClick={handleRemoveFromCart}>
+        <Minus className="w-4 h-4" />
+      </Button>
+      <span className="px-2">{countInCart}</span>
+      <Button type="button" variant="outline" size="sm" onClick={handleAddToCart}>
+        <Plus className="w-4 h-4" />
+      </Button>
+    </div>
+  ) : (
     <Button className="w-full" type="button" onClick={handleAddToCart}>
       <Plus />
       Add to cart
