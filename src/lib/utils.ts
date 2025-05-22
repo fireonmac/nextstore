@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { ZodError } from 'zod';
-import { capitalize } from 'lodash-es';
+import { capitalize } from 'es-toolkit';
 import { CartItem } from './types';
 import { SHIPPING_COST, SHIPPING_THRESHOLD, TAX_RATE } from './constants';
 
