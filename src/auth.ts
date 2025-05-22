@@ -92,7 +92,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Return the updated session object
       return session;
     },
-    async authorized({ request, auth }) {
+    async authorized({ request }) {
       // Check for cart cookie
       if (!request.cookies.get('sessionCartId')) {
         // Generate cart cookie
