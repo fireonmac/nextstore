@@ -9,7 +9,7 @@ const CartPage = async () => {
   const cart = await getMyCart();
 
   return (
-    <CartTable items={cart?.items} />
+    <CartTable items={cart?.items} itemsPrice={cart?.itemsPrice} />
   )
 }
 export default CartPage
