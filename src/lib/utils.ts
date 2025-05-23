@@ -108,6 +108,6 @@ export function formatCurrency(amount?: number | string): string {
   } else if (typeof amount === 'number') {
     return currencyFormatter.format(amount);
   } else {
-    return 'NaN';
+    return currencyFormatter.format(0);
   }
 }
