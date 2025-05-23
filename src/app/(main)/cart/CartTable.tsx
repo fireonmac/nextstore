@@ -12,14 +12,22 @@ import { useToast } from '@/lib/hooks/use-toast';
 import { Cart } from '@/lib/types';
 import Link from 'next/link';
 import Image from 'next/image';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { Button } from '@/lib/components/ui/button';
 import { addItemToCart, removeItemFromCart } from '@/lib/actions';
-import { Minus, Plus } from 'lucide-react';
+import { ArrowRight, Loader, Minus, Plus } from 'lucide-react';
+import { Card, CardContent } from '@/lib/components/ui/card';
+import { formatCurrency } from '@/lib/utils';
 
-const CartTable = ({ items }: { items?: Cart['items'] }) => {
-  // const router = useRouter();
+const CartTable = ({
+  items,
+  itemsPrice,
+}: {
+  items?: Cart['items'];
+  itemsPrice?: number;
+}) => {
+  const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
@@ -105,6 +113,28 @@ const CartTable = ({ items }: { items?: Cart['items'] }) => {
               </TableBody>
             </Table>
           </div>
+          <Card>
+            <CardContent className="p-4 gap-4">
+              <div className="pb-3 text-xl">
+                Subtotal ({items.reduce((a, c) => a + c.quantity, 0)}):
+                <span className="font-bold">{formatCurrency(itemsPrice)}</span>
+              </div>
+              <Button
+                onClick={() =>
+                  startTransition(() => router.push('/shipping-address'))
+                }
+                className="w-full"
+                disabled={isPending}
+              >
+                {isPending ? (
+                  <Loader className="animate-spin w-4 h-4" />
+                ) : (
+                  <ArrowRight className="w-4 h-4" />
+                )}
+                Proceed to Checkout
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       )}
     </>

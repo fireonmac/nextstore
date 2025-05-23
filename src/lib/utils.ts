@@ -95,3 +95,19 @@ export function calcPrice(items: CartItem[]) {
     totalPrice,
   };
 }
+
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
+
+export function formatCurrency(amount?: number | string): string {
+  if (typeof amount === 'string') {
+    return currencyFormatter.format(Number(amount));
+  } else if (typeof amount === 'number') {
+    return currencyFormatter.format(amount);
+  } else {
+    return 'NaN';
+  }
+}
