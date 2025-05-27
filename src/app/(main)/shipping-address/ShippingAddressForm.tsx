@@ -22,11 +22,11 @@ import { updateUserAddress } from '@/lib/actions';
 // import { z } from 'zod';
 
 const shippingAddressDefaultValues: ShippingAddress = {
-  fullName: 'John Doe',
-  streetAddress: '123 Main St',
-  city: 'Anytown',
-  postalCode: '12345',
-  country: 'USA',
+  fullName: '',
+  streetAddress: '',
+  city: '',
+  postalCode: '',
+  country: '',
 };
 
 const ShippingAddressForm = ({
