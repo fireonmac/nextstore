@@ -4,6 +4,8 @@ import { User } from 'next-auth';
 import { cookies } from 'next/headers';
 import { auth } from '@/auth';
 
+// Product queries
+// -------------------------------------------------------------
 export const getLatestProducts = async (limit?: number) => {
   return prisma.product.findMany({
     orderBy: {
@@ -21,6 +23,8 @@ export const getProductById = async (id: Product['id']) => {
   return prisma.product.findFirst({ where: { id } });
 };
 
+// User queries
+// -------------------------------------------------------------
 export const getUserByEmail = async (email: User['email']) => {
   if (!email) {
     return null;
@@ -33,6 +37,20 @@ export const getUserByEmail = async (email: User['email']) => {
   });
 };
 
+export const getUserById = async (id: User['id']) => {
+  const user = await prisma.user.findFirst({
+    where: { id },
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  return user;
+};
+
+// Cart queries
+// -------------------------------------------------------------
 export const getMyCart = async () => {
   // Check for cart cookie
   const sessionCartId = (await cookies()).get('sessionCartId')?.value;

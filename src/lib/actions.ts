@@ -4,6 +4,7 @@ import { auth, signIn, signOut } from '@/auth';
 import {
   cartItemSchema,
   insertCartSchema,
+  shippingAddressSchema,
   signInSchema,
   signUpSchema,
 } from './validators';
@@ -11,7 +12,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from './data/client';
 import { calcPrice, formatError } from './utils';
-import { CartItem } from './types';
+import { CartItem, ShippingAddress, ActionResult } from './types';
 import { cookies } from 'next/headers';
 import { getMyCart, getProductById } from './queries';
 import { revalidatePath } from 'next/cache';
@@ -19,7 +20,7 @@ import { revalidatePath } from 'next/cache';
 /********************************************************************
  * Authentication
  ********************************************************************/
-export async function signInWithCredentials(formData: FormData) {
+export async function signInWithCredentials(formData: FormData): Promise<ActionResult> {
   try {
     const user = signInSchema.parse({
       email: formData.get('email'),
@@ -38,11 +39,12 @@ export async function signInWithCredentials(formData: FormData) {
   }
 }
 
-export async function signOutUser() {
+export async function signOutUser(): Promise<ActionResult> {
   await signOut();
+  return { success: true, message: 'Signed out successfully' };
 }
 
-export async function signUpWithCredentials(formData: FormData) {
+export async function signUpWithCredentials(formData: FormData): Promise<ActionResult> {
   try {
     const user = signUpSchema.parse({
       name: formData.get('name'),
@@ -84,7 +86,7 @@ export async function signUpWithCredentials(formData: FormData) {
 /********************************************************************
  * Cart
  ********************************************************************/
-export async function addItemToCart(data: CartItem) {
+export async function addItemToCart(data: CartItem): Promise<ActionResult> {
   try {
     // Check for cart cookie
     const sessionCartId = (await cookies()).get('sessionCartId')?.value;
@@ -169,7 +171,7 @@ export async function addItemToCart(data: CartItem) {
   }
 }
 
-export async function removeItemFromCart(productId: CartItem['productId']) {
+export async function removeItemFromCart(productId: CartItem['productId']): Promise<ActionResult> {
   try {
     const sessionCartId = (await cookies()).get('sessionCartId')?.value;
     if (!sessionCartId) throw new Error('Cart Session not found');
@@ -217,6 +219,37 @@ export async function removeItemFromCart(productId: CartItem['productId']) {
       } cart successfully`,
     };
   } catch (error) {
-    return { success: false, message: formatError(error) };
+    return { success: false, message: formatError(error)[0] };
+  }
+}
+
+/********************************************************************
+ * User
+ *********************************************************************/
+export async function updateUserAddress(data: ShippingAddress): Promise<ActionResult> {
+  try {
+    const session = await auth();
+    const user = await prisma.user.findFirst({
+      where: { id: session?.user?.id },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    const address = shippingAddressSchema.parse(data);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { address },
+    });
+
+    return {
+      success: true,
+      message: 'Address updated successfully',
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error)[0],
+    };
   }
 }
