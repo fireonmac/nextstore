@@ -39,9 +39,8 @@ export async function signInWithCredentials(formData: FormData): Promise<ActionR
   }
 }
 
-export async function signOutUser(): Promise<ActionResult> {
+export async function signOutUser() {
   await signOut();
-  return { success: true, message: 'Signed out successfully' };
 }
 
 export async function signUpWithCredentials(formData: FormData): Promise<ActionResult> {
