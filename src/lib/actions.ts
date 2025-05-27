@@ -4,6 +4,7 @@ import { auth, signIn, signOut } from '@/auth';
 import {
   cartItemSchema,
   insertCartSchema,
+  shippingAddressSchema,
   signInSchema,
   signUpSchema,
 } from './validators';
@@ -11,7 +12,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from './data/client';
 import { calcPrice, formatError } from './utils';
-import { CartItem } from './types';
+import { CartItem, ShippingAddress } from './types';
 import { cookies } from 'next/headers';
 import { getMyCart, getProductById } from './queries';
 import { revalidatePath } from 'next/cache';
@@ -218,5 +219,36 @@ export async function removeItemFromCart(productId: CartItem['productId']) {
     };
   } catch (error) {
     return { success: false, message: formatError(error) };
+  }
+}
+
+/********************************************************************
+ * User
+ *********************************************************************/
+export async function updateUserAddress(data: ShippingAddress) {
+  try {
+    const session = await auth();
+    const user = await prisma.user.findFirst({
+      where: { id: session?.user?.id },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    const address = shippingAddressSchema.parse(data);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { address },
+    });
+
+    return {
+      success: true,
+      message: 'Address updated successfully',
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error)[0],
+    };
   }
 }

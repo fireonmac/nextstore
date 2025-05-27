@@ -1,7 +1,11 @@
 import { z } from 'zod';
 import { Prisma } from '@prisma/client';
 import { prisma } from './data/client';
-import { cartItemSchema, insertCartSchema } from './validators';
+import {
+  cartItemSchema,
+  insertCartSchema,
+  shippingAddressSchema,
+} from './validators';
 
 export type Product = Prisma.Result<
   typeof prisma.product,
@@ -12,6 +16,7 @@ export type User = Prisma.Result<typeof prisma.user, null, 'findFirstOrThrow'>;
 export type Cart = Prisma.Result<typeof prisma.cart, null, 'findFirstOrThrow'>;
 export type CartItem = z.infer<typeof cartItemSchema>;
 export type InsertCart = z.infer<typeof insertCartSchema>;
+export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
 
 /**********************************************************************
  * Authentication

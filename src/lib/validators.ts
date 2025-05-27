@@ -23,8 +23,11 @@ export const insertProductSchema = z.object({
 });
 
 const credentialsSchema = z.object({
-  email: z.string({ required_error: 'Email is required' }).email('Invalid email'),
-  password: z.string({ required_error: 'Password is required' })
+  email: z
+    .string({ required_error: 'Email is required' })
+    .email('Invalid email'),
+  password: z
+    .string({ required_error: 'Password is required' })
     .min(6, 'Password must be more than 6 characters')
     .max(32, 'Password must be less than 32 characters'),
 });
@@ -47,7 +50,7 @@ export const cartItemSchema = z.object({
   slug: z.string().min(1, 'Slug is required'),
   quantity: z.number().int().nonnegative('Quantity must be a positive integer'),
   image: z.string().min(1, 'Image is required'),
-  price: currency
+  price: currency,
 });
 
 export const insertCartSchema = z.object({
@@ -58,4 +61,14 @@ export const insertCartSchema = z.object({
   taxPrice: currency,
   sessionCartId: z.string().min(1, 'Session card ID is required'),
   userId: z.string().optional().nullable(),
+});
+
+export const shippingAddressSchema = z.object({
+  fullName: z.string().min(3, 'Name must be at least 3 characters'),
+  streetAddress: z.string().min(3, 'Address must be at least 3 characters'),
+  city: z.string().min(2, 'City must be at least 2 characters'),
+  postalCode: z.string().min(3, 'Postal code must be at least 3 characters'),
+  country: z.string().min(1, 'Country is required'),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
 });
