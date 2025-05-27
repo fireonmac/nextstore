@@ -103,11 +103,6 @@ const ShippingAddressForm = ({
                 name="streetAddress"
                 render={({
                   field,
-                }: {
-                  field: ControllerRenderProps<
-                    ShippingAddress,
-                    'streetAddress'
-                  >;
                 }) => (
                   <FormItem className="w-full">
                     <FormLabel>Address</FormLabel>
@@ -125,8 +120,6 @@ const ShippingAddressForm = ({
                 name="city"
                 render={({
                   field,
-                }: {
-                  field: ControllerRenderProps<ShippingAddress, 'city'>;
                 }) => (
                   <FormItem className="w-full">
                     <FormLabel>City</FormLabel>
@@ -142,8 +135,6 @@ const ShippingAddressForm = ({
                 name="country"
                 render={({
                   field,
-                }: {
-                  field: ControllerRenderProps<ShippingAddress, 'country'>;
                 }) => (
                   <FormItem className="w-full">
                     <FormLabel>Country</FormLabel>
@@ -159,8 +150,6 @@ const ShippingAddressForm = ({
                 name="postalCode"
                 render={({
                   field,
-                }: {
-                  field: ControllerRenderProps<ShippingAddress, 'postalCode'>;
                 }) => (
                   <FormItem className="w-full">
                     <FormLabel>Postal Code</FormLabel>
