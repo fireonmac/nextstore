@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { shippingAddressSchema } from '@/lib/validators';
-import { startTransition, useTransition } from 'react';
+import { useTransition } from 'react';
 import {
   Form,
   FormControl,
@@ -39,7 +39,7 @@ const ShippingAddressForm = ({
 
   const [
     isPending,
-    // startTransition
+    startTransition
   ] = useTransition();
 
   const form = useForm<ShippingAddress>({
